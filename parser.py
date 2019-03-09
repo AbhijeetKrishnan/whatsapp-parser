@@ -26,6 +26,10 @@ pat = re.compile(r'^(?P<day>\d{2})'
 # assume first line is always valid message (skip lines until you encounter valid message)
 # assume all year's are from 2000 onwards i.e. begin with "20"
 # no seconds data, unfortunately :-(
+# add handling for system messages like 
+# "X changed the subject from A to B", 
+# "Messages to this chat and calls are now secured with end-to-end encryption. Tap for more info."
+# "X changed their phone number. You're currently chatting with their new number. Tap to add it to your contacts."
 
 # TODO
 # validation and checks everywhere
