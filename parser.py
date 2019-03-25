@@ -24,7 +24,7 @@ pat = re.compile(r'^(?P<day>\d{2})'
 # Can't really detect what the intended message is then (maybe anomalous dates, but even that can be faked)
 # assume name doesn't contain ':'
 # assume first line is always valid message (skip lines until you encounter valid message)
-# assume all year's are from 2000 onwards i.e. begin with "20"
+# assume all years are from 2000 onwards i.e. begin with "20"
 # no seconds data, unfortunately :-(
 # add handling for system messages like 
 # "X changed the subject from A to B", 
@@ -34,7 +34,7 @@ pat = re.compile(r'^(?P<day>\d{2})'
 # TODO
 # validation and checks everywhere
 # better file handling of system args
-# feature to combine multiple logs into single csv
+# feature to ingest multiple logs into single csv
 
 datetimes = []
 names = []
@@ -76,5 +76,5 @@ if __name__ == "__main__":
     dict = {'datetime': datetimes, 'name': names, 'message': messages}
 
     df = pd.DataFrame(dict)
-
+    df.sort_values(by=['datetime'])
     df.to_csv(output_file, index=False)
