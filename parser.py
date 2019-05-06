@@ -20,22 +20,6 @@ pat = re.compile(r'^(?P<day>\d{2})'
                   ': '
                   '(?P<message>.+)$', re.M)
 
-# if message has string matching this pattern on a new line, things break.
-# Can't really detect what the intended message is then (maybe anomalous dates, but even that can be faked)
-# assume name doesn't contain ':'
-# assume first line is always valid message (skip lines until you encounter valid message)
-# assume all years are from 2000 onwards i.e. begin with "20"
-# no seconds data, unfortunately :-(
-# add handling for system messages like 
-# "X changed the subject from A to B", 
-# "Messages to this chat and calls are now secured with end-to-end encryption. Tap for more info."
-# "X changed their phone number. You're currently chatting with their new number. Tap to add it to your contacts."
-
-# TODO
-# validation and checks everywhere
-# better file handling of system args
-# feature to ingest multiple logs into single csv
-
 datetimes = []
 names = []
 messages = []
@@ -49,10 +33,7 @@ def parse_line(line):
     names.append(line['name'])
     messages.append(line['message'])
 
-if __name__ == "__main__":
-    input_file = sys.argv[1]
-    output_file = sys.argv[2]
-    input_file = open(input_file, 'r')
+def parse_file(input_file):
     input = input_file.read()
     input_lines = input.splitlines()
 
@@ -73,8 +54,18 @@ if __name__ == "__main__":
             prev_m['message'] += "\n" + line
     parse_line(prev_m)
 
+def build_csv(output_file_name):
     dict = {'datetime': datetimes, 'name': names, 'message': messages}
 
     df = pd.DataFrame(dict)
     df.sort_values(by=['datetime'])
-    df.to_csv(output_file, index=False)
+    df.to_csv(output_file_name, index=False)
+
+if __name__ == "__main__":
+    input_file_name = sys.argv[1]
+    output_file_name = sys.argv[2]
+    input_file = open(input_file_name, 'r')
+    
+    parse_file(input_file)
+    build_csv(output_file_name)
+    

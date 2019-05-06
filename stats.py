@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-df = pd.read_csv('output.csv')
+df = pd.read_csv('output2.csv')
 
 # List of top 10 participants with message counts
 name_totals = df.groupby(['name']).count()
