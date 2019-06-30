@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
-import sys
-import re
 import datetime
+import re
+import sys
+
 import pandas as pd
 
 pat = re.compile(r'^(?P<day>\d{2})'
@@ -68,4 +69,3 @@ if __name__ == "__main__":
     
     parse_file(input_file)
     build_csv(output_file_name)
-    
