@@ -13,6 +13,11 @@
     - "X changed this group's icon"
     - "X added/removed Y"
 
+# How to get Whatsapp log files
+
+- go to the chat which you want to parse -> Menu -> More -> Export Chat (Save to drive, email, share)
+- Logs are txt files. 
+
 ## TODO
 - [ ] validation and checks everywhere
 - [ ] better file handling of system args
