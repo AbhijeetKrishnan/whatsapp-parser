@@ -33,7 +33,7 @@
     
 - [ ] feature to ingest multiple logs into single csv
 - [ ] find more system messages
-- [ ] clean up stats.py, maybe convert to jupyter notebook
+- [x] clean up stats.py, maybe convert to jupyter notebook
 - [ ] add more analyses
     - [ ] messages vs date graphviz per user + group
     - [ ] sentiment analysis of conversation
