@@ -19,9 +19,9 @@
 - Logs are txt files. 
 
 ## TODO
-- [] validation and checks everywheret
-- [] better file handling of system args
-- [] handling of multiple date formats
+- [ ] validation and checks everywhere
+- [ ] better file handling of system args
+- [ ] handling of multiple date formats
 
     18/05/16, 7:06:22 PM: ‪username/phone number: message
 
@@ -31,10 +31,10 @@
 
     3/25/19, 17:14 - username: message
     
-- [] feature to ingest multiple logs into single csv
-- [] find more system messages
-- [] clean up stats.py, maybe convert to jupyter notebook
-- [] add more analyses
-    - [] messages vs date graphviz per user + group
-    - [] sentiment analysis of conversation
-    - [] word vector embedding - get "similarity" of conversations
+- [ ] feature to ingest multiple logs into single csv
+- [ ] find more system messages
+- [ ] clean up stats.py, maybe convert to jupyter notebook
+- [ ] add more analyses
+    - [ ] messages vs date graphviz per user + group
+    - [ ] sentiment analysis of conversation
+    - [ ] word vector embedding - get "similarity" of conversations
