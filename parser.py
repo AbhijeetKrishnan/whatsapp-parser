@@ -6,16 +6,17 @@ import sys
 
 import pandas as pd
 
-pat = re.compile(r'^(?P<day>\d{2})'
+pat = re.compile(r'^(?P<day>\d{1,2})'
                   '/'
-                  '(?P<month>\d{2})'
-                  '/(?P<year>\d{2})'
+                  '(?P<month>\d{1,2})'
+                  '/'
+                  '(?P<year>\d{1,2})'
                   ', '
                   '(?P<hour>\d{1,2})'
                   ':'
                   '(?P<minute>\d{2})'
                   ' '
-                  '(?P<time_of_day>am|pm)'
+                  '(?P<time_of_day>am|pm|AM|PM)'
                   ' - '
                   '(?P<name>[^:]+)'
                   ': '
