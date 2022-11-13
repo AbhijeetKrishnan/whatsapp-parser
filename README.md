@@ -6,7 +6,8 @@ _(Developed assuming WhatsApp Messenger Version 2.22.23.77)_
 
 - Export your WhatsApp chat as a `.txt` file by following the instructions [here](https://faq.whatsapp.com/1180414079177245/?helpref=uf_share).
 - Ensure your system has Python v3.10 or higher installed.
-- Navigate to the project root and install any missing dependencies using -
+- Navigate to the project root and install any missing dependencies using the command below. These are only for running
+the IPython notebook, and not for running the parser.
 
     ```bash
     python3 -m pip install -r requirements.txt
