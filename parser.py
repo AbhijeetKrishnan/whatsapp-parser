@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import datetime
 import re
 import sys
@@ -116,7 +117,6 @@ def parse_file(input_file):
     for line in input_lines[i + 1:]:
         m = pat.fullmatch(line)
         if m:
-            print(prev_m)
             date, name, msg, msg_type = parse_match(prev_m)
             datetimes.append(date)
             names.append(name)
@@ -141,10 +141,19 @@ def write_csv(csvdict, output_filename):
     df.sort_values(by=['datetime'])
     df.to_csv(output_filename, index=False, escapechar='\\')
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        prog="WhatsApp Chat Log Parser",
+        description="Converts an exported WhatsApp chat log into a CSV file for data analysis.",
+    )
+    parser.add_argument('input', action='store', help="Input filename to read WhatsApp chat records from")
+    parser.add_argument('output', action='store', help="Output filename to write CSV file to")
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    input_file_name = sys.argv[1]
-    output_file_name = sys.argv[2]
+    args = parse_args()
     
-    with open(input_file_name, 'r') as input_file:
+    with open(args.input, 'r') as input_file:
         csvdict = parse_file(input_file)
-        write_csv(csvdict, output_file_name)
+        write_csv(csvdict, args.output)
