@@ -1,19 +1,22 @@
-# WhatsApp chat log parser
+# WhatsApp Chat Log Parser
 
-- if message has string matching the pattern on a new line, things break.
-- Can't really detect what the intended message is then (maybe anomalous dates, but even that can be faked)
-- assume name doesn't contain ':' (What could name contain?)
-- assume first line is always valid message (skip lines until you encounter valid message)
-- assume all years are from 2000 onwards i.e. begin with "20"
-- no seconds data, unfortunately :-(
-- add handling for system messages like 
-    - "X changed the subject from A to B", 
-    - "Messages to this chat and calls are now secured with end-to-end encryption. Tap for more info."
-    - "X changed their phone number. You're currently chatting with their new number. Tap to add it to your contacts."
-    - "X changed this group's icon"
-    - "X added/removed Y"
+_(Developed assuming WhatsApp Messenger Version 2.22.23.77)_
 
-# How to get Whatsapp log files
+# Usage
 
-- go to the chat which you want to parse -> Menu -> More -> Export Chat (Save to drive, email, share)
-- Logs are txt files. 
+- Export your WhatsApp chat as a `.txt` file by following the instructions [here](https://faq.whatsapp.com/1180414079177245/?helpref=uf_share).
+- Ensure your system has Python v3.10 or higher installed.
+- Navigate to the project root and install any missing dependencies using -
+
+    ```bash
+    python3 -m pip install -r requirements.txt
+    ```
+
+- Run the `parser.py` script to convert your exported chat logs into a CSV file.
+
+    ```bash
+    ./parser.py [INPUT] [OUTPUT]
+    ```
+
+- Change the variable `DATA` in the `stats.ipynb` file to match your CSV filename.
+- Run all cells in the notebook to view the analysis and perform your own.
