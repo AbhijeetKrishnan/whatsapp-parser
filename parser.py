@@ -30,6 +30,7 @@ def parse_line(line):
     hr = int(line['hour'])
     if line['time_of_day'] in ["pm", "PM"] and hr != 12:
         hr += 12
+    # assume yy is always 20yy
     dt = datetime.datetime(int("20" + line['year']), int(line['month']), int(line['day']), hr, int(line['minute']))
     datetimes.append(dt)
     names.append(line['name'])
@@ -61,7 +62,7 @@ def build_csv(output_file_name):
 
     df = pd.DataFrame(dict)
     df.sort_values(by=['datetime'])
-    df.to_csv(output_file_name, index=False)
+    df.to_csv(output_file_name, index=False, escapechar='\\')
 
 if __name__ == "__main__":
     input_file_name = sys.argv[1]
