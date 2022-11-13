@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import datetime
 import re
@@ -6,9 +6,9 @@ import sys
 
 import pandas as pd
 
-pat = re.compile(r'^(?P<day>\d{1,2})'
+pat = re.compile(r'^(?P<month>\d{1,2})'
                   '/'
-                  '(?P<month>\d{1,2})'
+                  '(?P<day>\d{1,2})'
                   '/'
                   '(?P<year>\d{1,2})'
                   ', '
@@ -28,7 +28,7 @@ messages = []
 
 def parse_line(line):
     hr = int(line['hour'])
-    if line['time_of_day'] == "pm" and hr != 12:
+    if line['time_of_day'] in ["pm", "PM"] and hr != 12:
         hr += 12
     dt = datetime.datetime(int("20" + line['year']), int(line['month']), int(line['day']), hr, int(line['minute']))
     datetimes.append(dt)
