@@ -1,0 +1,5 @@
+#!/bin/bash
+
+jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace stats.ipynb
+git add stats.ipynb
+exit 0
