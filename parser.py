@@ -37,7 +37,7 @@ class MessageType(Enum):
     REMOVED = r"^(?P<remover>.+) removed (?P<removed>.+)$"
     SECURITY_CODE_CHANGE = r"^Your security code with (?P<name>.+) changed\. Tap to learn more\.$"
     SECURITY_CODE_CHANGE_ALL = r"^Your security code with all participants changed\. Tap to learn more\.$"
-    MESSAGE = r"^(?P<name>.+): (?P<contents>.+)$"
+    MESSAGE = r"^(?P<name>[^:]+): (?P<contents>.+)$"
     DISAPPEARING_ENABLE = r"^(?P<name>.+) turned on disappearing messages\. All new messages will disappear from this chat (?P<num>\d+) (?P<period>days|hours) after they're sent\.$"
     DISAPPEARING_DISABLE = r"^(?P<name>.+) turned off disappearing messages\.$"
     CALL_START = r"^(?P<name>.+) started a call$"
