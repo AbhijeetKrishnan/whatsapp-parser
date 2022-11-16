@@ -30,7 +30,9 @@ present in these output cells by committing them to GitHub.
     cp pre-commit .git/hooks/
     ```
 
-## Assumption regarding start of records
+## Assumptions
+
+### Start of records
 
 Since WhatsApp Messenger doesn't export files using proper delimiters, it is impossible to differentiate a new message
 from the previous message's contents.
@@ -50,3 +52,21 @@ There is no way to tell that the second line is actually part of the previous re
 include any delimiter to identify when a message for a particular record is over. Thus, I've made the assumption that
 any line that begins with `[mm]/[dd]/[yy], [h]:[mm] AM|PM - ` is the beginning of a new record. Errors of the kind I
 mentioned will arise, but they are unavoidable.
+
+### Names do not contain ':'
+
+Regular messages are identified by the name and contents being separated by a ':' character.
+
+```
+11/12/12, 1:00 PM - Ashok Kumar: 11/12/22, 1:01 PM - ABC: Message 1
+```
+
+In case names can contain the ':' character, it would be impossible to identify what part of the string is the name, and
+what part the message.
+
+```
+11/12/12, 1:00 PM - A:s:h:o:k: K:u:m:a:r: 11/12/22, 1:01 PM - ABC: Message 1
+```
+
+I make the fairly reasonable assumption that names do not contain the ':' character. This allows detection of a name as
+the string before the first ':'.

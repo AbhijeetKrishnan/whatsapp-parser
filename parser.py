@@ -79,12 +79,8 @@ def parse_match(m):
     msg_type, match = detect_message_type(msg)
 
     dt = datetime.datetime(yyyy, mm, dd, hh, mins)
-    if msg_type == "message":
-        name = match["name"]
-        contents = match["contents"]
-    else:
-        name = "N/A"
-        contents = msg
+    name = match.groupdict().get("name", "N/A")
+    contents = match.groupdict().get("contents", msg)
     return dt, name, contents, msg_type
 
 def get_records(input):
