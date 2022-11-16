@@ -22,44 +22,49 @@ DT_PREFIX = (
     r" - "
     r"(?P<message>.+)$"
 )
-pat = re.compile(DT_PREFIX, re.DOTALL)
+record_pat = re.compile(DT_PREFIX, re.DOTALL)
+
+MESSAGE = r"^(?P<name>[^:]+): (?P<contents>.+)$"
+msg_pat = re.compile(MESSAGE, re.DOTALL)
 
 @unique
 class MessageType(Enum):
-    SUBJECT_NAME_CHANGE = r"^(?P<name>.+) changed the subject from \"(?P<old>.+)\" to \"(?P<new>.+)\"$"
-    PHONE_NUM_CHANGE = r"^(?P<name>.+) changed their phone number to a new number\. Tap to message or add the new number\.$"
-    PHONE_NUM_CHANGE_FULL = r"^(?P<old>.+) changed to (?P<new>.+)$"
-    GROUP_ICON_CHANGE = r"^(?P<name>.+) changed this group's icon$"
-    GROUP_ICON_DELETE = r"^(?P<name>.+) deleted this group's icon$"
-    ADDED = r"^(?P<adder>.+) added (?P<addee>.+)$"
-    LEFT = r"^(?P<name>.+) left$"
+    SUBJECT_NAME_CHANGE = r"^(?P<name>[^:]+) changed the subject from \"(?P<old>.+)\" to \"(?P<new>.+)\"$"
+    PHONE_NUM_CHANGE = r"^(?P<name>[^:]+) changed their phone number to a new number\. Tap to message or add the new number\.$"
+    PHONE_NUM_CHANGE_FULL = r"^(?P<old>[^:]+) changed to (?P<new>.+)$"
+    GROUP_ICON_CHANGE = r"^(?P<name>[^:]+) changed this group's icon$"
+    GROUP_ICON_DELETE = r"^(?P<name>[^:]+) deleted this group's icon$"
+    ADDED = r"^(?P<adder>[^:]+) added (?P<addee>.+)$"
+    LEFT = r"^(?P<name>[^:]+) left$"
     YOU_LEFT = r"^You left$"
-    REMOVED = r"^(?P<remover>.+) removed (?P<removed>.+)$"
+    REMOVED = r"^(?P<remover>[^:]+) removed (?P<removed>[^:]+)$"
     SECURITY_CODE_CHANGE = r"^Your security code with (?P<name>.+) changed\. Tap to learn more\.$"
     SECURITY_CODE_CHANGE_ALL = r"^Your security code with all participants changed\. Tap to learn more\.$"
-    MESSAGE = r"^(?P<name>[^:]+): (?P<contents>.+)$"
-    DISAPPEARING_ENABLE = r"^(?P<name>.+) turned on disappearing messages\. All new messages will disappear from this chat (?P<num>\d+) (?P<period>days|hours) after they're sent\.$"
-    DISAPPEARING_DISABLE = r"^(?P<name>.+) turned off disappearing messages\.$"
-    CALL_START = r"^(?P<name>.+) started a call$"
+    DISAPPEARING_ENABLE = r"^(?P<name>[^:]+) turned on disappearing messages\. All new messages will disappear from this chat (?P<num>\d+) (?P<period>days|hours) after they're sent\.$"
+    DISAPPEARING_DISABLE = r"^(?P<name>[^:]+) turned off disappearing messages\.$"
+    CALL_START = r"^(?P<name>[^:]+) started a call$"
+    MISSED_VIDEO_CALL = r"^(?P<name>[^:]+): Missed video call$"
+    MEDIA_OMITTED = r"^(?P<name>[^:]+): <Media omitted>$"
 
     def __str__(self):
         return self._name_.lower()
 
     def get_regex_pat(self):
-        if self._name_ == "MESSAGE":
-            return re.compile(self._value_, re.DOTALL)
-        else:
-            return re.compile(self._value_)
+        return re.compile(self._value_)
 
 MESSAGE_PATTERNS = [(str(msg_type), msg_type.get_regex_pat()) for msg_type in MessageType]
 
 def detect_message_type(message):
-    for msg_type, msg_pat in MESSAGE_PATTERNS:
-        m = msg_pat.fullmatch(message)
+    global msg_pat
+    for msg_type, pat in MESSAGE_PATTERNS:
+        m = pat.fullmatch(message)
         if m:
             return msg_type, m
-    print("Unknown message type: {}. Please file an issue!".format(message), file=sys.stderr)
-    return "unknown", None
+    if m := msg_pat.fullmatch(message):
+        return 'message', m
+    else:
+        print("Unknown message type: {}. Please file an issue!".format(message), file=sys.stderr)
+        return "unknown", None
 
 def parse_match(m):
     yyyy = int("20" + m["year"]) # assume yy is always 20yy
@@ -89,14 +94,14 @@ def get_records(input):
 
     # skip lines until we find the first matching record
     while i < len(input_lines):
-        m_prev = pat.fullmatch(input_lines[i])
+        m_prev = record_pat.fullmatch(input_lines[i])
         if m_prev:
             m_prev = m_prev.groupdict()
             break
         i += 1
 
     for line in input_lines[i + 1:]:
-        m = pat.fullmatch(line)
+        m = record_pat.fullmatch(line)
         if m:
             date, name, msg, msg_type = parse_match(m_prev)
             record = {
