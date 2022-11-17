@@ -53,20 +53,20 @@ include any delimiter to identify when a message for a particular record is over
 any line that begins with `[mm]/[dd]/[yy], [h]:[mm] AM|PM - ` is the beginning of a new record. Errors of the kind I
 mentioned will arise, but they are unavoidable.
 
-### Names do not contain ':'
+### Names do not contain `:`
 
-Regular messages are identified by the name and contents being separated by a ':' character.
+Regular messages are identified by the name and contents being separated by the `:` (colon) character.
 
 ```
-11/12/12, 1:00 PM - Ashok Kumar: 11/12/22, 1:01 PM - ABC: Message 1
+11/12/22, 1:00 PM - Ashok Kumar: 11/12/22, 1:01 PM - ABC: Message 1
 ```
 
-In case names can contain the ':' character, it would be impossible to identify what part of the string is the name, and
+In case names can contain `:`, it would be impossible to identify what part of the string is the name, and
 what part the message.
 
 ```
-11/12/12, 1:00 PM - A:s:h:o:k: K:u:m:a:r: 11/12/22, 1:01 PM - ABC: Message 1
+11/12/22, 1:00 PM - A:s:h:o:k: K:u:m:a:r: 11/12/22, 1:01 PM - ABC: Message 1
 ```
 
-I make the fairly reasonable assumption that names do not contain the ':' character. This allows detection of a name as
-the string before the first ':'.
+I make the fairly reasonable assumption that names do not contain `:`. This allows detection of a name as
+the string before the first `:`.
