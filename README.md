@@ -44,7 +44,7 @@ For example, let's say person "Ashok Kumar" sent the following message at 1:00 P
 WhatsApp would export a record for this message as -
 
 ```
-11/12/12, 1:00 PM - Ashok Kumar: 11/12/22, 1:01 PM - ABC: Message 1
+11/12/22, 1:00 PM - Ashok Kumar: 11/12/22, 1:01 PM - ABC: Message 1
 11/12/22, 1:02 PM - Ashok Kumar: Message 2
 ```
 
