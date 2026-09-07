@@ -1,0 +1,19 @@
+[project]
+name = "whatsapp-parser"
+version = "0.1.0"
+description = "Parse exported WhatsApp chat logs into CSV and analyze them."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[dependency-groups]
+analysis = [
+    "marimo>=0.9",
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+    "numpy>=1.24",
+    "wordcloud>=1.9",
+]
+
+[tool.uv]
+package = false

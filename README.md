@@ -2,33 +2,41 @@
 
 _(Developed assuming WhatsApp Messenger Version 2.22.23.77)_
 
+## Setup
+
+This project uses [uv](https://docs.astral.sh/uv/) for environment management. Install it by following the
+[instructions here](https://docs.astral.sh/uv/getting-started/installation/), then let uv create the project
+environment (it will also fetch the pinned Python version automatically):
+
+```bash
+uv sync --group analysis
+```
+
+The `analysis` dependency group is only needed for the analysis notebook. The parser itself uses only the Python
+standard library, so `parser.py` can be run with any Python v3.10 or higher.
+
 ## Usage
 
 - Export your WhatsApp chat as a `.txt` file by following the instructions
   [here](https://faq.whatsapp.com/1180414079177245/?helpref=uf_share).
-- Ensure your system has Python v3.10 or higher installed.
-- Navigate to the project root and install any missing dependencies using the command below. These are only for running
-the IPython notebook, and not for running the parser.
-
-    ```bash
-    python3 -m pip install -r requirements.txt
-    ```
-
 - Run the `parser.py` script to convert your exported chat logs into a CSV file.
 
     ```bash
-    ./parser.py [INPUT] [OUTPUT]
+    uv run parser.py [INPUT] [OUTPUT]
     ```
 
-- Change the variable `DATA` in the `stats.ipynb` file to match your CSV filename.
-- Run all cells in the notebook to view the analysis and perform your own.
-- I **highly recommend** you install the `pre-commit` script as a pre-commit hook for git. It clears the output cells in
-the `stats.ipynb` notebook before committing any changes. This will prevent accidentally leaking sensitive chat info
-present in these output cells by committing them to GitHub.
+- Change the variable `DATA_FILE` in `stats.py` to match your CSV filename.
+- Open the analysis notebook with [marimo](https://marimo.io/) to view the analysis and perform your own:
 
     ```bash
-    cp pre-commit .git/hooks/
+    uv run marimo edit stats.py
     ```
+
+  To run it non-interactively as an app instead, use `uv run marimo run stats.py`.
+
+`stats.py` is a [marimo](https://marimo.io/) notebook stored as a plain Python file. Unlike a Jupyter `.ipynb`, it
+stores no cell outputs, so there is no risk of accidentally committing sensitive chat contents from output cells, and
+no pre-commit hook is needed.
 
 ## Assumptions
 
